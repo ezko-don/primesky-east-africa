@@ -12,7 +12,7 @@ export const R2_CONFIG = {
   ENDPOINT: import.meta.env.VITE_R2_ENDPOINT || '',
   
   // Public URL for accessing files (if you've set up a custom domain or R2.dev subdomain)
-  PUBLIC_URL: import.meta.env.VITE_R2_PUBLIC_URL || '',
+  PUBLIC_URL: import.meta.env.VITE_R2_PUBLIC_URL || 'https://pub-158012c9a83642869a2f756e0cad584d.r2.dev',
   
   // Allowed file types
   ALLOWED_IMAGE_TYPES: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/heic', 'image/heif'],

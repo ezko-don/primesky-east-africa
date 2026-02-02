@@ -125,9 +125,9 @@ const MinimalHero = () => {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-neutral-900 text-white relative overflow-hidden">
+    <section className="h-screen flex items-center justify-center bg-gradient-to-br from-slate-500 via-slate-400 to-emerald-500 text-white relative overflow-hidden">
       {/* Background Media Carousel */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 opacity-50">
         {teamMedia.map((media, index) => (
           <div
             key={index}
@@ -142,6 +142,11 @@ const MinimalHero = () => {
                 muted
                 loop
                 playsInline
+                onError={(e) => {
+                  console.error('Video failed to load:', media.src);
+                  const videoElement = e.target as HTMLVideoElement;
+                  videoElement.style.display = 'none';
+                }}
               >
                 <source src={media.src} type="video/mp4" />
               </video>
@@ -150,10 +155,13 @@ const MinimalHero = () => {
                 src={media.src}
                 alt={media.title}
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  console.error('Image failed to load:', media.src);
+                  const imgElement = e.target as HTMLImageElement;
+                  imgElement.style.display = 'none';
+                }}
               />
             )}
-            {/* Overlay for better text readability */}
-            <div className="absolute inset-0 bg-black/50" />
           </div>
         ))}
       </div>

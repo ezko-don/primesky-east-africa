@@ -39,7 +39,7 @@ const AnalyticsDashboard = () => {
     return (
       <button
         onClick={() => setIsVisible(true)}
-        className="fixed bottom-4 left-4 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors z-50"
+        className="hidden md:flex fixed bottom-4 left-4 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors z-50"
         title="View Analytics"
       >
         <TrendingUp className="w-5 h-5" />
@@ -56,7 +56,7 @@ const AnalyticsDashboard = () => {
   }
 
   return (
-    <div className="fixed bottom-4 left-4 bg-white rounded-lg shadow-xl p-6 z-50 max-w-md max-h-96 overflow-y-auto">
+    <div className="hidden md:block fixed bottom-4 left-4 bg-white rounded-lg shadow-xl p-6 z-50 max-w-md max-h-96 overflow-y-auto">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
           <TrendingUp className="w-5 h-5 text-blue-600" />

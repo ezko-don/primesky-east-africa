@@ -13,7 +13,8 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-neutral-900">
       <MinimalNavigation />
-      <MinimalHero />
+      <div className="pt-16">
+        <MinimalHero />
       <Services />
       <PortfolioPublic />
       <About />
@@ -21,6 +22,7 @@ const Index = () => {
       <MinimalFooter />
       <FloatingWhatsApp />
       <AnalyticsDashboard />
+      </div>
     </div>
   );
 };

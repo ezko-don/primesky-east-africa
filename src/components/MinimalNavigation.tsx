@@ -15,6 +15,18 @@ const MinimalNavigation = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
+
   const navLinks = [
     { name: 'SERVICES', href: '#services' },
     { name: 'PORTFOLIO', href: '#portfolio' }, 
@@ -24,7 +36,7 @@ const MinimalNavigation = () => {
 
   return (
     <nav 
-      className={`fixed top-0 w-full z-50 border-b transition-all duration-500 ${
+      className={`fixed top-0 w-full h-16 z-40 border-b transition-all duration-500 ${
         scrolled 
           ? 'bg-neutral-900/95 backdrop-blur-md border-emerald-400/20 shadow-lg shadow-emerald-400/10' 
           : 'bg-neutral-900/80 backdrop-blur-sm border-neutral-800'
@@ -40,19 +52,19 @@ const MinimalNavigation = () => {
                 <img 
                   src="/primesky-logo.png" 
                   alt="PrimeSky East Africa" 
-                  className="h-10 w-10"
+                  className="h-8 w-8 md:h-10 md:w-10"
                 />
               </div>
               
               {/* Company Name */}
               <div className="flex flex-col">
-                <h1 className="text-lg font-light tracking-wider text-white relative">
+                <h1 className="text-sm md:text-lg font-light tracking-wider text-white relative">
                   <span className="inline-block hover:text-emerald-400 transition-colors duration-300">
                     PRIMESKY
                   </span>
                   <span className="text-emerald-400"> EAST AFRICA</span>
                 </h1>
-                <p className="text-xs text-emerald-400/80 tracking-widest font-light">
+                <p className="text-[10px] md:text-xs text-emerald-400/80 tracking-widest font-light hidden sm:block">
                   SEE BEYOND THE HORIZON
                 </p>
               </div>
@@ -117,13 +129,13 @@ const MinimalNavigation = () => {
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Mobile Navigation */}
-        <div className={`lg:hidden border-t border-emerald-400/20 transition-all duration-300 overflow-hidden ${
-          isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
-        }`}>
-          <div className="py-4 px-4">
-            <div className="flex flex-col space-y-4">
+      {/* Mobile Navigation - Full Screen Overlay */}
+      {isMenuOpen && (
+        <div className="lg:hidden fixed inset-0 bg-neutral-900 z-40 transition-all duration-300" style={{ top: '64px' }}>
+        <div className="h-full overflow-y-auto py-8 px-4">
+            <div className="flex flex-col space-y-6">
               {navLinks.map((link, index) => (
                 <a
                   key={link.name}
@@ -188,7 +200,7 @@ const MinimalNavigation = () => {
             </div>
           </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 };
