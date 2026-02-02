@@ -1,0 +1,292 @@
+/* Responsive Design Utilities for Primesky East Africa */
+
+/* Base responsive breakpoints */
+/* Mobile: 0-640px */
+/* Tablet: 641-768px */
+/* Desktop: 769px+ */
+
+/* Global responsive utilities */
+.responsive-container {
+  @apply container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12;
+}
+
+.responsive-padding-y {
+  @apply py-12 sm:py-16 md:py-20 lg:py-24 xl:py-32;
+}
+
+.responsive-padding-x {
+  @apply px-4 sm:px-6 lg:px-8 xl:px-12;
+}
+
+.responsive-text-hero {
+  @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl;
+}
+
+.responsive-text-heading {
+  @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+}
+
+.responsive-text-subheading {
+  @apply text-lg sm:text-xl md:text-2xl;
+}
+
+.responsive-text-body {
+  @apply text-sm sm:text-base md:text-lg;
+}
+
+.responsive-button {
+  @apply px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 text-sm sm:text-base;
+}
+
+.responsive-icon-sm {
+  @apply w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6;
+}
+
+.responsive-icon-md {
+  @apply w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8;
+}
+
+.responsive-icon-lg {
+  @apply w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12;
+}
+
+.responsive-grid-2 {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8;
+}
+
+.responsive-grid-3 {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8;
+}
+
+.responsive-grid-4 {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-8;
+}
+
+.responsive-flex-col-row {
+  @apply flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6;
+}
+
+.responsive-space-y {
+  @apply space-y-4 sm:space-y-6 md:space-y-8;
+}
+
+.responsive-space-x {
+  @apply space-x-2 sm:space-x-3 md:space-x-4;
+}
+
+/* Mobile-first navigation */
+.mobile-nav-item {
+  @apply block px-3 py-2 text-base font-medium text-neutral-300 hover:text-emerald-400 hover:bg-neutral-800 rounded-md transition-colors duration-200;
+}
+
+.desktop-nav-item {
+  @apply hidden lg:block px-3 py-2 text-sm font-medium text-neutral-300 hover:text-emerald-400 transition-colors duration-200;
+}
+
+/* Form responsive styles */
+.responsive-form-input {
+  @apply w-full px-3 py-3 sm:px-4 sm:py-4 text-sm sm:text-base bg-neutral-800/50 border border-neutral-700 rounded-xl text-white placeholder-white/50 font-light focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200;
+}
+
+.responsive-form-textarea {
+  @apply w-full px-3 py-3 sm:px-4 sm:py-4 text-sm sm:text-base bg-neutral-800/50 border border-neutral-700 rounded-xl text-white placeholder-white/50 font-light resize-none focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200;
+}
+
+.responsive-form-button {
+  @apply w-full px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base rounded-xl font-medium tracking-wide transition-all duration-300 hover:scale-105 shadow-lg flex items-center justify-center gap-3;
+}
+
+/* Card responsive styles */
+.responsive-card {
+  @apply bg-neutral-800/50 border border-neutral-700 rounded-xl p-4 sm:p-6 md:p-8 hover:border-emerald-400/50 transition-all duration-300;
+}
+
+.responsive-card-compact {
+  @apply bg-neutral-800/50 border border-neutral-700 rounded-xl p-3 sm:p-4 md:p-6 hover:border-emerald-400/50 transition-all duration-300;
+}
+
+/* Contact info responsive styles */
+.responsive-contact-item {
+  @apply flex items-center space-x-3 sm:space-x-4 p-3 sm:p-4 bg-neutral-800/50 border border-neutral-700 rounded-xl hover:border-emerald-400/50 transition-all duration-300;
+}
+
+.responsive-contact-icon {
+  @apply h-5 w-5 sm:h-6 sm:w-6 text-emerald-400 flex-shrink-0;
+}
+
+.responsive-contact-text {
+  @apply text-white/90 font-light text-sm sm:text-base;
+}
+
+/* Status message responsive styles */
+.responsive-status-message {
+  @apply mb-4 sm:mb-6 p-3 sm:p-4 rounded-xl flex items-start gap-3;
+}
+
+.responsive-status-icon {
+  @apply w-5 h-5 flex-shrink-0 mt-0.5;
+}
+
+.responsive-status-text {
+  @apply text-xs sm:text-sm leading-relaxed;
+}
+
+/* Floating elements responsive */
+.responsive-floating-button {
+  @apply fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50;
+}
+
+.responsive-floating-content {
+  @apply absolute bottom-12 sm:bottom-16 right-0 w-72 sm:w-80 mx-4 sm:mx-0;
+}
+
+/* Hero section responsive */
+.responsive-hero-title {
+  @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-tight;
+}
+
+.responsive-hero-subtitle {
+  @apply text-xl sm:text-2xl md:text-3xl text-white/90 font-light;
+}
+
+.responsive-hero-description {
+  @apply text-base sm:text-lg md:text-xl text-white/70 font-light max-w-2xl mx-auto px-4;
+}
+
+/* Portfolio grid responsive */
+.responsive-portfolio-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8;
+}
+
+.responsive-portfolio-item {
+  @apply bg-neutral-800 rounded-xl overflow-hidden shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500 hover:-translate-y-2;
+}
+
+/* Services grid responsive */
+.responsive-services-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10;
+}
+
+.responsive-service-card {
+  @apply bg-neutral-800/50 border border-neutral-700 rounded-2xl p-6 sm:p-8 hover:border-emerald-400/30 transition-all duration-300 hover:-translate-y-1;
+}
+
+/* Mobile menu responsive */
+.responsive-mobile-menu {
+  @apply lg:hidden border-t border-emerald-400/20 transition-all duration-300 overflow-hidden;
+}
+
+.responsive-mobile-menu-content {
+  @apply py-4 px-4;
+}
+
+.responsive-mobile-menu-item {
+  @apply text-xs font-normal tracking-[0.2em] text-neutral-300 hover:text-emerald-400 transition-all duration-300 text-center relative group hover:scale-105 py-2;
+}
+
+/* Utility classes for common responsive patterns */
+.hide-mobile {
+  @apply hidden sm:block;
+}
+
+.show-mobile {
+  @apply block sm:hidden;
+}
+
+.mobile-full-width {
+  @apply w-full sm:w-auto;
+}
+
+.mobile-center {
+  @apply text-center sm:text-left;
+}
+
+.mobile-stack {
+  @apply flex flex-col sm:flex-row;
+}
+
+.mobile-reverse {
+  @apply flex flex-col-reverse sm:flex-row;
+}
+
+/* Responsive spacing utilities */
+.responsive-mb {
+  @apply mb-4 sm:mb-6 md:mb-8 lg:mb-12;
+}
+
+.responsive-mt {
+  @apply mt-4 sm:mt-6 md:mt-8 lg:mt-12;
+}
+
+.responsive-mx {
+  @apply mx-4 sm:mx-6 md:mx-8 lg:mx-12;
+}
+
+.responsive-my {
+  @apply my-4 sm:my-6 md:my-8 lg:my-12;
+}
+
+/* Media queries for fine-tuned responsive behavior */
+@media (max-width: 640px) {
+  .mobile-text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  
+  .mobile-padding-sm {
+    padding: 0.75rem;
+  }
+  
+  .mobile-margin-sm {
+    margin: 0.5rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .tablet-text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+  
+  .tablet-padding-md {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .desktop-text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  
+  .desktop-padding-lg {
+    padding: 1.5rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-block {
+    display: block !important;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .responsive-animate {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .responsive-high-contrast {
+    border-width: 2px;
+    border-color: currentColor;
+  }
+}
