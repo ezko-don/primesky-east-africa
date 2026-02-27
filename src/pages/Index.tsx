@@ -1,8 +1,8 @@
 import React from 'react';
 import NavigationMinimal from '@/components/NavigationMinimal';
-import HeroMinimal from '@/components/HeroMinimal';
-import ServicesMinimal from '@/components/ServicesMinimal';
-import PortfolioMinimal from '@/components/PortfolioMinimal';
+import Hero3D from '@/components/Hero3D';
+import Portfolio3D from '@/components/Portfolio3D';
+import Services3D from '@/components/Services3D';
 import AboutMinimal from '@/components/AboutMinimal';
 import ContactMinimal from '@/components/ContactMinimal';
 import FooterMinimal from '@/components/FooterMinimal';
@@ -12,9 +12,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white">
       <NavigationMinimal />
-      <HeroMinimal />
-      <PortfolioMinimal />
-      <ServicesMinimal />
+      <Hero3D />
+      <Portfolio3D />
+      <Services3D />
       <AboutMinimal />
       <ContactMinimal />
       <FooterMinimal />
