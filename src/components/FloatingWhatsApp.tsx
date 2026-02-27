@@ -111,7 +111,7 @@ const FloatingWhatsApp = () => {
       </div>
 
       {/* Custom Styles */}
-      <style jsx>{`
+      <style>{`
         @keyframes slide-in-from-bottom-2 {
           from {
             transform: translateY(8px);
