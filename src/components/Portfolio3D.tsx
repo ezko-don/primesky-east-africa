@@ -66,9 +66,17 @@ const Portfolio3D = () => {
     : mediaItems.filter(item => item.category === selectedCategory);
 
   useEffect(() => {
+    // Reset visible items when category changes
     setVisibleItems(new Set());
     itemRefs.current = [];
-  }, [selectedCategory]);
+    
+    // Show all items after a brief delay as fallback
+    const fallbackTimer = setTimeout(() => {
+      setVisibleItems(new Set(Array.from({ length: filteredItems.length }, (_, i) => i)));
+    }, 100);
+    
+    return () => clearTimeout(fallbackTimer);
+  }, [selectedCategory, filteredItems.length]);
 
   useEffect(() => {
     const observers = itemRefs.current.map((ref, index) => {
@@ -80,7 +88,7 @@ const Portfolio3D = () => {
             setVisibleItems(prev => new Set(prev).add(index));
           }
         },
-        { threshold: 0.1, rootMargin: '50px' }
+        { threshold: 0.05, rootMargin: '100px' }
       );
       
       observer.observe(ref);
@@ -165,6 +173,12 @@ const Portfolio3D = () => {
                       alt={item.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       loading="lazy"
+                      onLoad={() => console.log('✅ Image loaded:', item.title)}
+                      onError={(e) => {
+                        console.error('❌ Image failed:', item.title, mediaUrl);
+                        const target = e.target as HTMLImageElement;
+                        target.style.backgroundColor = '#f3f4f6';
+                      }}
                     />
                   ) : (
                     <video
@@ -172,6 +186,12 @@ const Portfolio3D = () => {
                       muted
                       playsInline
                       preload="metadata"
+                      onLoadedMetadata={() => console.log('✅ Video loaded:', item.title)}
+                      onError={(e) => {
+                        console.error('❌ Video failed:', item.title, mediaUrl);
+                        const target = e.target as HTMLVideoElement;
+                        target.style.backgroundColor = '#f3f4f6';
+                      }}
                     >
                       <source src={mediaUrl} type="video/mp4" />
                     </video>
