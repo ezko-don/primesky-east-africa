@@ -3,6 +3,15 @@ import { ChevronDown } from 'lucide-react';
 
 const HeroMinimal = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const heroImages = [
     'https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Nature/Rice%20farms%20view.jpg',
@@ -28,7 +37,10 @@ const HeroMinimal = () => {
   return (
     <section className="relative h-screen w-full overflow-hidden bg-white">
       {/* Background Image Carousel */}
-      <div className="absolute inset-0">
+      <div 
+        className="absolute inset-0"
+        style={{ transform: `translateY(${scrollY * 0.5}px)` }}
+      >
         {heroImages.map((image, index) => (
           <div
             key={index}
@@ -49,14 +61,17 @@ const HeroMinimal = () => {
       </div>
 
       {/* Content */}
-      <div className="relative h-full flex flex-col items-center justify-center text-center px-6">
-        <h1 className="text-6xl md:text-8xl font-light text-white mb-6 tracking-tight">
+      <div 
+        className="relative h-full flex flex-col items-center justify-center text-center px-6 animate-fade-in"
+        style={{ opacity: Math.max(0, 1 - scrollY / 500) }}
+      >
+        <h1 className="text-6xl md:text-8xl font-light text-white mb-6 tracking-tight transform transition-all duration-700">
           PRIMESKY
         </h1>
-        <p className="text-xl md:text-2xl font-light text-white/90 mb-2 tracking-widest">
+        <p className="text-xl md:text-2xl font-light text-white/90 mb-2 tracking-widest transform transition-all duration-700 delay-100">
           EAST AFRICA
         </p>
-        <p className="text-sm md:text-base font-light text-white/70 tracking-widest uppercase">
+        <p className="text-sm md:text-base font-light text-white/70 tracking-widest uppercase transform transition-all duration-700 delay-200">
           Aerial Photography & Videography
         </p>
 

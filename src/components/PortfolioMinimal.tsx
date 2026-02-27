@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import { R2_CONFIG } from '@/config/r2';
 
@@ -12,6 +12,8 @@ interface MediaItem {
 const PortfolioMinimal = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [lightboxMedia, setLightboxMedia] = useState<MediaItem | null>(null);
+  const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const mediaItems: MediaItem[] = [
     // Weddings
@@ -206,6 +208,33 @@ const PortfolioMinimal = () => {
     ? mediaItems 
     : mediaItems.filter(item => item.category === selectedCategory);
 
+  useEffect(() => {
+    setVisibleItems(new Set());
+    itemRefs.current = [];
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    const observers = itemRefs.current.map((ref, index) => {
+      if (!ref) return null;
+      
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setVisibleItems(prev => new Set(prev).add(index));
+          }
+        },
+        { threshold: 0.1, rootMargin: '50px' }
+      );
+      
+      observer.observe(ref);
+      return observer;
+    });
+
+    return () => {
+      observers.forEach(observer => observer?.disconnect());
+    };
+  }, [filteredItems.length]);
+
   const getMediaUrl = (filename: string) => {
     const parts = filename.split('/');
     const encodedParts = parts.map(part => encodeURIComponent(part));
@@ -248,7 +277,13 @@ const PortfolioMinimal = () => {
             return (
               <div
                 key={index}
-                className="group relative overflow-hidden bg-neutral-100 cursor-pointer aspect-[4/3]"
+                ref={el => itemRefs.current[index] = el}
+                className={`group relative overflow-hidden bg-neutral-100 cursor-pointer aspect-[4/3] transition-all duration-700 ${
+                  visibleItems.has(index) 
+                    ? 'opacity-100 translate-y-0' 
+                    : 'opacity-0 translate-y-8'
+                }`}
+                style={{ transitionDelay: `${(index % 3) * 100}ms` }}
                 onClick={() => setLightboxMedia(item)}
               >
                 {item.type === 'image' ? (

@@ -1,12 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const AboutMinimal = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="about" className="py-24 bg-white">
+    <section id="about" className="py-24 bg-white" ref={sectionRef}>
       <div className="max-w-[1400px] mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Image */}
-          <div className="relative aspect-[4/3] bg-neutral-100">
+          <div className={`relative aspect-[4/3] bg-neutral-100 transition-all duration-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
             <img
               src="https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Nature/IMG_4391.jpg"
               alt="Aerial view"
@@ -15,7 +35,7 @@ const AboutMinimal = () => {
           </div>
 
           {/* Content */}
-          <div>
+          <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
             <h2 className="text-5xl md:text-6xl font-light text-neutral-900 mb-8 tracking-tight">
               About
             </h2>
