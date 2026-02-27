@@ -1,28 +1,24 @@
 import React from 'react';
-import MinimalNavigation from '@/components/MinimalNavigation';
-import MinimalHero from '@/components/MinimalHero';
-import Services from '@/components/Services';
-import PortfolioPublic from '@/components/PortfolioPublic';
-import About from '@/components/About';
-import Contact from '@/components/Contact';
-import MinimalFooter from '@/components/MinimalFooter';
+import NavigationMinimal from '@/components/NavigationMinimal';
+import HeroMinimal from '@/components/HeroMinimal';
+import ServicesMinimal from '@/components/ServicesMinimal';
+import PortfolioMinimal from '@/components/PortfolioMinimal';
+import AboutMinimal from '@/components/AboutMinimal';
+import ContactMinimal from '@/components/ContactMinimal';
+import FooterMinimal from '@/components/FooterMinimal';
 import FloatingWhatsApp from '@/components/FloatingWhatsApp';
-import AnalyticsDashboard from '@/components/AnalyticsDashboard';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-neutral-900">
-      <MinimalNavigation />
-      <div className="pt-16">
-        <MinimalHero />
-      <Services />
-      <PortfolioPublic />
-      <About />
-      <Contact />
-      <MinimalFooter />
+    <div className="min-h-screen bg-white">
+      <NavigationMinimal />
+      <HeroMinimal />
+      <PortfolioMinimal />
+      <ServicesMinimal />
+      <AboutMinimal />
+      <ContactMinimal />
+      <FooterMinimal />
       <FloatingWhatsApp />
-      <AnalyticsDashboard />
-      </div>
     </div>
   );
 };
