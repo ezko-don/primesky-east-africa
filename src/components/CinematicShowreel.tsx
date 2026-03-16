@@ -30,7 +30,7 @@ const CinematicShowreel = () => {
           muted 
           loop 
           playsInline
-          className="w-full h-full object-cover brightness-[0.4] grayscale group-hover:grayscale-0 group-hover:brightness-[0.7] transition-all duration-[2000ms] ease-out"
+          className="w-full h-full object-cover brightness-[0.4] grayscale group-hover:grayscale-0 group-hover:brightness-[0.7] transition-all [transition-duration:2000ms] ease-out"
         >
           <source src={getMediaUrl('Nature/Serengeti - The vast plains .mp4')} type="video/mp4" />
         </video>
