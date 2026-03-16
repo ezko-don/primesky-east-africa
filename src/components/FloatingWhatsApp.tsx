@@ -1,144 +1,66 @@
-import React, { useState, useEffect } from 'react';
-import { MessageCircle, X } from 'lucide-react';
-import { trackWhatsAppClick } from '../utils/analytics';
+import React, { useState } from 'react';
+import { MessageCircle, X, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const FloatingWhatsApp = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-
-  useEffect(() => {
-    // Show the button after a short delay
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleWhatsAppClick = () => {
     const phoneNumber = '254741464497';
-    const message = encodeURIComponent(
-      'Hello! I\'m interested in your drone services. Could you please provide more information?'
-    );
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-    
-    // Track the WhatsApp click
-    trackWhatsAppClick('floating-button', {
-      phoneNumber,
-      message: 'Hello! I\'m interested in your drone services. Could you please provide more information?',
-      expanded: isExpanded
-    });
-    
-    window.open(whatsappUrl, '_blank');
+    const message = encodeURIComponent("Hello! I'm interested in your drone services.");
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
   };
-
-  const handleExpandClick = () => {
-    setIsExpanded(!isExpanded);
-    
-    // Track expansion/collapse
-    trackWhatsAppClick('floating-button-expand', {
-      action: isExpanded ? 'collapse' : 'expand'
-    });
-  };
-
-  if (!isVisible) return null;
 
   return (
-    <>
-      {/* Floating WhatsApp Button */}
-      <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50">
-        <div className="relative">
-          {/* Expanded Message Box */}
-          {isExpanded && (
-            <div className="absolute bottom-12 md:bottom-16 right-0 w-72 sm:w-80 bg-white rounded-2xl shadow-2xl border border-emerald-200 overflow-hidden animate-in slide-in-from-bottom-2 duration-300 mx-4 sm:mx-0">
-              {/* Header */}
-              <div className="bg-emerald-500 text-white p-3 md:p-4 flex items-center justify-between">
-                <div className="flex items-center space-x-2 md:space-x-3">
-                  <div className="w-8 h-8 md:w-10 md:h-10 bg-white/20 rounded-full flex items-center justify-center">
-                    <MessageCircle className="w-4 h-4 md:w-5 md:h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-sm">Primesky East Africa</h3>
-                    <p className="text-xs text-emerald-100">Typically replies instantly</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setIsExpanded(false)}
-                  className="text-white/80 hover:text-white transition-colors p-1"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-              
-              {/* Message Content */}
-              <div className="p-3 md:p-4">
-                <div className="bg-gray-100 rounded-lg p-3 mb-3">
-                  <p className="text-sm text-gray-800">
-                    👋 Hello! Need professional drone services?
-                  </p>
-                  <p className="text-xs text-gray-600 mt-1">
-                    We're here to help with aerial photography, videography, and mapping services across Kenya & Tanzania.
-                  </p>
-                </div>
-                
-                <button
-                  onClick={handleWhatsAppClick}
-                  className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-2 px-4 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2 text-sm"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>Start Chat</span>
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Main WhatsApp Button */}
-          <button
-            onClick={handleExpandClick}
-            className="group relative bg-emerald-500 hover:bg-emerald-600 text-white p-3 md:p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+    <div className="fixed bottom-12 right-12 z-[100]">
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="absolute bottom-20 right-0 w-80 bg-neutral-900 border border-white/5 rounded-[2rem] overflow-hidden shadow-2xl backdrop-blur-2xl"
           >
-            {/* Pulsing Ring Animation */}
-            <div className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-20"></div>
-            <div className="absolute inset-0 rounded-full bg-emerald-500 animate-pulse opacity-30"></div>
+            <div className="bg-emerald-500 p-8">
+               <div className="flex justify-between items-start mb-4">
+                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
+                    <MessageCircle className="w-6 h-6 text-white" />
+                  </div>
+                  <button onClick={() => setIsExpanded(false)} className="text-white/50 hover:text-white transition-colors">
+                    <X className="w-5 h-5" />
+                  </button>
+               </div>
+               <h3 className="text-white font-black uppercase tracking-tighter text-2xl">Direct <br/>Line.</h3>
+            </div>
             
-            {/* WhatsApp Icon */}
-            <MessageCircle className="w-5 h-5 md:w-6 md:h-6 relative z-10" />
-            
-            {/* Notification Badge */}
-            <div className="absolute -top-1 -right-1 w-2.5 h-2.5 md:w-3 md:h-3 bg-red-500 rounded-full animate-bounce"></div>
-          </button>
-        </div>
-      </div>
+            <div className="p-8 space-y-6">
+              <p className="text-white/40 text-sm font-light leading-relaxed">
+                Connect directly with our flight operations team for scheduling and technical inquiries.
+              </p>
+              
+              <button
+                onClick={handleWhatsAppClick}
+                className="w-full flex items-center justify-between py-4 px-6 bg-white/5 border border-white/5 rounded-2xl text-white hover:bg-emerald-500 transition-all group"
+              >
+                <span className="text-[10px] uppercase font-black tracking-widest">Open WhatsApp</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Custom Styles */}
-      <style>{`
-        @keyframes slide-in-from-bottom-2 {
-          from {
-            transform: translateY(8px);
-            opacity: 0;
-          }
-          to {
-            transform: translateY(0);
-            opacity: 1;
-          }
-        }
-        
-        .animate-in {
-          animation-fill-mode: both;
-        }
-        
-        .slide-in-from-bottom-2 {
-          animation-name: slide-in-from-bottom-2;
-        }
-        
-        @media (max-width: 640px) {
-          .fixed {
-            bottom: 1rem;
-            right: 1rem;
-          }
-        }
-      `}</style>
-    </>
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setIsExpanded(!isExpanded)}
+        data-cursor="Chat"
+        className="w-16 h-16 rounded-full bg-emerald-500 flex items-center justify-center text-white shadow-2xl shadow-emerald-500/20 relative"
+      >
+        <div className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-20" />
+        <MessageCircle className="w-6 h-6 relative z-10" />
+      </motion.button>
+    </div>
   );
 };
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Play, Filter, Video, Image, ExternalLink } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { R2_CONFIG } from '@/config/r2';
 
 interface MediaItem {
@@ -117,20 +118,6 @@ const PortfolioPublic = () => {
       description: 'Wildlife photography in Serengeti'
     },
     {
-      filename: 'Nature/views.mp4',
-      title: 'Scenic Views',
-      category: 'nature',
-      type: 'video',
-      description: 'Stunning landscape views'
-    },
-    {
-      filename: 'Nature/website .mp4',
-      title: 'Nature Showcase',
-      category: 'nature',
-      type: 'video',
-      description: 'Nature and landscape showcase'
-    },
-    {
       filename: 'Nature/zenji.mp4',
       title: 'Zenji Beach',
       category: 'nature',
@@ -139,6 +126,13 @@ const PortfolioPublic = () => {
     },
 
     // Real Estate
+    {
+      filename: 'Real estate/trip to Zanzibar.🇹🇿🏝️🏖️.jpg',
+      title: 'Zanzibar Island Beauty',
+      category: 'real-estate',
+      type: 'image',
+      description: 'Tropical paradise from the sky'
+    },
     {
       filename: 'Real estate/All you need is a trip to Zanzibar.🇹🇿🏝️🏖️ (1).jpg',
       title: 'Zanzibar Paradise View 1',
@@ -161,13 +155,6 @@ const PortfolioPublic = () => {
       description: '2 bedroom villa construction at Blu Pearl'
     },
     {
-      filename: 'Real estate/masai mara.mp4',
-      title: 'Masai Mara Property',
-      category: 'real-estate',
-      type: 'video',
-      description: 'Property in Masai Mara area'
-    },
-    {
       filename: 'Real estate/masaki .mov',
       title: 'Masaki Properties',
       category: 'real-estate',
@@ -180,13 +167,6 @@ const PortfolioPublic = () => {
       category: 'real-estate',
       type: 'video',
       description: 'Luxury hotel and suites aerial tour'
-    },
-    {
-      filename: 'Real estate/trip to Zanzibar.🇹🇿🏝️🏖️.jpg',
-      title: 'Zanzibar Island Beauty',
-      category: 'real-estate',
-      type: 'image',
-      description: 'Tropical paradise from the sky'
     },
 
     // Construction
@@ -217,6 +197,15 @@ const PortfolioPublic = () => {
       category: 'construction',
       type: 'video',
       description: 'Aerial view of construction development'
+    },
+
+    // Agriculture
+    {
+      filename: 'Rice farms view.jpg',
+      title: 'Farmland Aerial',
+      category: 'agriculture',
+      type: 'image',
+      description: 'Aerial view of rice farming fields'
     }
   ];
 
@@ -265,139 +254,159 @@ const PortfolioPublic = () => {
         </div>
 
         {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex flex-wrap justify-center gap-4 mb-16"
+        >
           {categories.map((category) => (
-            <button
+            <motion.button
               key={category.id}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedCategory(category.id)}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+              className={`px-8 py-3 rounded-full font-medium transition-all duration-300 flex items-center gap-2 ${
                 selectedCategory === category.id
                   ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/25'
-                  : 'bg-neutral-800 text-gray-300 hover:bg-neutral-700 hover:text-white'
+                  : 'bg-neutral-800 text-gray-300 hover:bg-neutral-700 hover:text-white border border-white/5'
               }`}
             >
-              <Filter className="w-4 h-4 inline mr-2" />
-              {category.name}
-              <span className="ml-2 text-xs opacity-75">({category.count})</span>
-            </button>
+              <Filter className={`w-4 h-4 ${selectedCategory === category.id ? 'animate-pulse' : ''}`} />
+              <span className="tracking-wide">{category.name}</span>
+              <span className={`ml-1 text-xs px-2 py-0.5 rounded-full ${
+                selectedCategory === category.id ? 'bg-white/20' : 'bg-white/10'
+              }`}>
+                {category.count}
+              </span>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredItems.map((item, index) => {
-            const mediaUrl = getMediaUrl(item.filename);
-            
-            return (
-              <div
-                key={index}
-                className="group bg-neutral-800 rounded-xl overflow-hidden shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500 hover:-translate-y-2"
-              >
-                <div className="aspect-[4/3] bg-black relative overflow-hidden">
-                  {item.type === 'image' ? (
-                    <img
-                      src={mediaUrl}
-                      alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      loading="lazy"
-                      onLoad={() => console.log('✅ Image loaded:', item.title, mediaUrl)}
-                      onError={(e) => {
-                        console.error('❌ Failed to load image:', item.title);
-                        console.error('URL:', mediaUrl);
-                        console.error('Original filename:', item.filename);
-                        const target = e.target as HTMLImageElement;
-                        target.src = 'https://via.placeholder.com/800x600/1f2937/10b981?text=Image+Not+Found';
-                      }}
-                    />
-                  ) : (
-                    <video
-                      className="w-full h-full object-cover"
-                      controls
-                      muted
-                      playsInline
-                      preload="metadata"
-                      onLoadedMetadata={() => console.log('✅ Video loaded:', item.title, mediaUrl)}
-                      onError={(e) => {
-                        console.error('❌ Failed to load video:', item.title);
-                        console.error('URL:', mediaUrl);
-                        console.error('Original filename:', item.filename);
-                        const videoElement = e.target as HTMLVideoElement;
-                        console.error('Video error code:', videoElement.error?.code);
-                        console.error('Video error message:', videoElement.error?.message);
-                      }}
-                    >
-                      <source src={mediaUrl} type="video/mp4" />
-                      <source src={mediaUrl} type="video/quicktime" />
-                      Your browser does not support the video tag.
-                    </video>
-                  )}
-                  
-                  {/* Overlay for images only */}
-                  {item.type === 'image' && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  )}
-                  
-                  {/* Media type badge */}
-                  <div className="absolute top-4 right-4 z-20">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${
-                      item.type === 'video' 
-                        ? 'bg-red-500/90 text-white' 
-                        : 'bg-blue-500/90 text-white'
-                    }`}>
-                      {item.type === 'video' ? <Video className="w-3 h-3" /> : <Image className="w-3 h-3" />}
-                      {item.type.toUpperCase()}
-                    </span>
-                  </div>
-
-                  {/* Category badge */}
-                  <div className="absolute top-4 left-4 z-20">
-                    <span className="px-3 py-1 bg-emerald-500/90 text-white text-xs font-bold rounded-full uppercase">
-                      {item.category.replace('-', ' ')}
-                    </span>
-                  </div>
-
-                  {/* Play button overlay for videos */}
-                  {item.type === 'video' && (
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                      <div className="bg-emerald-500/20 rounded-full p-4 backdrop-blur-sm">
-                        <Play className="w-8 h-8 text-emerald-400" />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-gray-400 text-sm mb-4 leading-relaxed">
-                    {item.description}
-                  </p>
-                  
-                  {/* Action buttons */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
-                      <span className="capitalize">{item.category.replace('-', ' ')}</span>
-                      <span>•</span>
-                      <span className="capitalize">{item.type}</span>
-                    </div>
+        <AnimatePresence mode="popLayout">
+          <motion.div 
+            layout
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+          >
+            {filteredItems.map((item, index) => {
+              const mediaUrl = getMediaUrl(item.filename);
+              
+              return (
+                <motion.div
+                  key={item.filename}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ 
+                    duration: 0.5, 
+                    delay: index * 0.05,
+                    type: "spring",
+                    stiffness: 100
+                  }}
+                  className="group bg-neutral-800 rounded-2xl overflow-hidden shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500 hover:-translate-y-2 border border-white/5"
+                >
+                  <div className="aspect-[4/3] bg-black relative overflow-hidden">
+                    {item.type === 'image' ? (
+                      <motion.img
+                        whileHover={{ scale: 1.1 }}
+                        transition={{ duration: 0.7 }}
+                        src={mediaUrl}
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                        onLoad={() => console.log('✅ Image loaded:', item.title)}
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = 'https://via.placeholder.com/800x600/1f2937/10b981?text=Image+Not+Found';
+                        }}
+                      />
+                    ) : (
+                      <video
+                        className="w-full h-full object-cover"
+                        controls
+                        muted
+                        playsInline
+                        preload="metadata"
+                      >
+                        <source src={mediaUrl} type="video/mp4" />
+                        <source src={mediaUrl} type="video/quicktime" />
+                      </video>
+                    )}
                     
-                    <a
-                      href={mediaUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 text-sm font-medium transition-colors"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      View
-                    </a>
+                    {/* Media type badge */}
+                    <div className="absolute top-4 right-4 z-20">
+                      <motion.span 
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className={`px-3 py-1.5 rounded-lg text-[10px] font-bold flex items-center gap-1.5 backdrop-blur-md ${
+                        item.type === 'video' 
+                          ? 'bg-red-500/80 text-white' 
+                          : 'bg-emerald-500/80 text-white'
+                      }`}>
+                        {item.type === 'video' ? <Video className="w-3 h-3" /> : <Image className="w-3 h-3" />}
+                        {item.type.toUpperCase()}
+                      </motion.span>
+                    </div>
+
+                    {/* Category badge */}
+                    <div className="absolute top-4 left-4 z-20">
+                      <motion.span 
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="px-3 py-1.5 bg-white/10 backdrop-blur-md text-white border border-white/10 text-[10px] font-bold rounded-lg uppercase tracking-wider"
+                      >
+                        {item.category.replace('-', ' ')}
+                      </motion.span>
+                    </div>
+
+                    {/* Play button overlay for videos */}
+                    {item.type === 'video' && (
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                        <motion.div 
+                          whileHover={{ scale: 1.2 }}
+                          className="bg-emerald-500/20 rounded-full p-6 backdrop-blur-sm border border-emerald-500/30"
+                        >
+                          <Play className="w-10 h-10 text-emerald-400 fill-emerald-400/20" />
+                        </motion.div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+
+                  {/* Content */}
+                  <div className="p-8">
+                    <h3 className="text-xl font-light text-white mb-3 group-hover:text-emerald-400 transition-colors uppercase tracking-tight">
+                      {item.title}
+                    </h3>
+                    <p className="text-gray-400 text-sm mb-6 leading-relaxed font-light">
+                      {item.description}
+                    </p>
+                    
+                    {/* Action buttons */}
+                    <div className="flex items-center justify-between pt-6 border-t border-white/5">
+                      <div className="flex items-center gap-3">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="text-[10px] uppercase tracking-widest text-gray-500 font-medium">{item.category}</span>
+                      </div>
+                      
+                      <motion.a
+                        whileHover={{ x: 3 }}
+                        href={mediaUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 text-xs font-semibold transition-colors uppercase tracking-widest"
+                      >
+                        <span>Details</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </motion.a>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </AnimatePresence>
 
         {/* Call to Action */}
         <div className="text-center mt-16">

@@ -1,129 +1,148 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Camera, Video, Map, Building } from 'lucide-react';
+import React, { useState } from 'react';
+import { Camera, Video, Sprout, Building, Heart, ArrowUpRight, Monitor, Zap } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Services3D = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   const services = [
-    {
-      icon: Camera,
-      title: 'Aerial Photography',
-      description: 'Professional drone photography capturing stunning perspectives from above',
-      gradient: 'from-blue-500 to-cyan-500'
+    { 
+      id: "01",
+      icon: Video, 
+      title: 'CINematic', 
+      desc: 'Narrative-driven 4K/6K visual storytelling with filmic precision.',
+      tags: ['8K RAW', 'COMMERCIAL'],
+      thumbnail: 'https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Nature/Serengeti%20-%20The%20vast%20plains%20.mp4'
     },
-    {
-      icon: Video,
-      title: 'Videography',
-      description: 'Cinematic aerial videography for weddings, events, and commercial projects',
-      gradient: 'from-purple-500 to-pink-500'
+    { 
+      id: "02",
+      icon: Building, 
+      title: 'INTELLigence', 
+      desc: 'High-precision drone mapping and thermal site monitoring.',
+      tags: ['RTK GPS', 'THERMAL'],
+      thumbnail: 'https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Construction/construction.mp4'
     },
-    {
-      icon: Map,
-      title: 'Mapping & Surveying',
-      description: 'Precision mapping and land surveying for construction and agriculture',
-      gradient: 'from-emerald-500 to-teal-500'
+    { 
+      id: "03",
+      icon: Sprout, 
+      title: 'AGRIculture', 
+      desc: 'Multispectral crop health analysis and yield optimization data.',
+      tags: ['MAPS', 'NDVI'],
+      thumbnail: 'https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Nature/Rice%20farms%20view.jpg'
     },
-    {
-      icon: Building,
-      title: 'Real Estate',
-      description: 'Showcase properties with breathtaking aerial views and virtual tours',
-      gradient: 'from-orange-500 to-red-500'
+    { 
+      id: "04",
+      icon: Camera, 
+      title: 'PRESERVation', 
+      desc: 'Master-level preservation of life\'s most profound moments.',
+      tags: ['4K UHD', 'WEDDINGS'],
+      thumbnail: 'https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Nature/zenji.mp4'
     }
   ];
 
   return (
-    <section id="services" className="py-24 bg-gradient-to-br from-neutral-900 via-neutral-800 to-emerald-900 relative overflow-hidden" ref={sectionRef}>
-      {/* Animated background elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-emerald-500 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl animate-pulse delay-1000" />
-      </div>
+    <section id="services" className="py-60 bg-black relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-40"
+        >
+          <span className="text-emerald-500 font-black tracking-[0.8em] uppercase text-[10px] mb-6 block">Capabilities</span>
+          <h2 className="text-8xl md:text-[12vw] font-black leading-[0.75] tracking-tighter text-white uppercase italic">
+            THE ART OF <br/>
+            <span className="text-emerald-500 not-italic">VANTAGE.</span>
+          </h2>
+        </motion.div>
 
-      <div className="max-w-[1400px] mx-auto px-6 relative z-10">
-        <div className={`text-center mb-20 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div className="inline-block mb-6">
-            <div className="h-px w-16 bg-gradient-to-r from-transparent via-emerald-400 to-transparent mb-4" />
-            <h2 className="text-6xl md:text-7xl font-extralight text-white mb-4 tracking-tight">
-              Services
-            </h2>
-            <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-emerald-400 to-transparent" />
-          </div>
-          <p className="text-emerald-300 font-light max-w-2xl mx-auto text-lg">
-            Licensed drone services across Kenya and Tanzania
-          </p>
-        </div>
+        <div className="space-y-4">
+          {services.map((service, index) => (
+            <motion.div
+              key={index}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1, duration: 0.8 }}
+              viewport={{ once: true }}
+              data-cursor="View"
+              className="group relative"
+            >
+              <div className="relative z-10 py-16 border-t border-white/10 flex flex-col lg:flex-row lg:items-center gap-12 cursor-pointer overflow-hidden transition-all duration-700 hover:px-12">
+                {/* Number */}
+                <span className="text-2xl font-black text-white/5 group-hover:text-emerald-500 transition-colors duration-500 italic">
+                  {service.id}
+                </span>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.map((service, index) => {
-            const Icon = service.icon;
-            const isHovered = hoveredIndex === index;
-            
-            return (
-              <div 
-                key={index} 
-                className={`group relative transition-all duration-700 ${
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                }`}
-                style={{ 
-                  transitionDelay: `${index * 150}ms`,
-                  transform: isHovered ? 'translateY(-12px) scale(1.05)' : '',
-                  perspective: '1000px'
-                }}
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
-              >
-                {/* 3D Card with glassmorphism */}
-                <div className="relative h-full p-8 rounded-2xl backdrop-blur-md bg-white/5 border border-white/10 shadow-xl hover:shadow-2xl transition-all duration-300">
-                  {/* Gradient background on hover */}
-                  <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
-                  
-                  {/* Icon with 3D effect */}
-                  <div className="relative mb-6 flex justify-center">
-                    <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${service.gradient} p-0.5 shadow-lg group-hover:shadow-2xl transition-all duration-300`}>
-                      <div className="w-full h-full rounded-2xl bg-neutral-900 flex items-center justify-center">
-                        <Icon className="w-10 h-10 text-white" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <h3 className="text-2xl font-light text-white mb-4 tracking-wide text-center">
+                {/* Content */}
+                <div className="flex-1">
+                  <h3 className="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter transition-all duration-700 group-hover:translate-x-8">
                     {service.title}
                   </h3>
-                  <p className="text-sm text-neutral-300 font-light leading-relaxed text-center">
-                    {service.description}
-                  </p>
-
-                  {/* Decorative corner */}
-                  <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden">
-                    <div className={`absolute top-0 right-0 w-full h-full bg-gradient-to-br ${service.gradient} opacity-20 transform rotate-45 translate-x-10 -translate-y-10`} />
-                  </div>
-
-                  {/* Bottom accent line */}
-                  <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${service.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 rounded-b-2xl`} />
+                  
+                  <AnimatePresence>
+                    {hoveredIndex === index && (
+                      <motion.div
+                         initial={{ height: 0, opacity: 0, y: 10 }}
+                         animate={{ height: 'auto', opacity: 1, y: 0 }}
+                         exit={{ height: 0, opacity: 0, y: 10 }}
+                         className="overflow-hidden"
+                      >
+                         <p className="text-white/40 max-w-xl text-xl font-light leading-relaxed my-8 italic">
+                           {service.desc}
+                         </p>
+                         <div className="flex flex-wrap gap-4">
+                            {service.tags.map(tag => (
+                              <span key={tag} className="text-[10px] font-black tracking-widest text-emerald-500/60 border-b border-emerald-500/20">
+                                {tag}
+                              </span>
+                            ))}
+                         </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
+
+                {/* Hover Visual Thumbnail */}
+                <div className="absolute right-32 top-1/2 -translate-y-1/2 w-64 aspect-video overflow-hidden rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 scale-90 group-hover:scale-100 hidden lg:block border border-white/10">
+                   {service.thumbnail.endsWith('.mp4') ? (
+                     <video src={service.thumbnail} autoPlay muted loop className="w-full h-full object-cover" />
+                   ) : (
+                     <img src={service.thumbnail} className="w-full h-full object-cover" />
+                   )}
+                </div>
+
+                <ArrowUpRight className="w-16 h-16 text-white/5 transition-all duration-700 group-hover:text-emerald-500 group-hover:rotate-45" />
+
+                {/* Background Reflection */}
+                <div className="absolute inset-0 bg-emerald-500/5 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-1000 -z-10" />
               </div>
-            );
-          })}
+            </motion.div>
+          ))}
+          <div className="border-t border-white/10" />
+        </div>
+
+        {/* Technical Badges */}
+        <div className="mt-32 grid grid-cols-2 md:grid-cols-4 gap-8">
+           {[
+             { label: 'Dynamic Range', value: '14+ Stops', icon: Zap },
+             { label: 'Output Res', value: '8K Native', icon: Monitor },
+             { label: 'Precision', value: 'GPS Sync', icon: Zap },
+             { label: 'Response', value: '24hr Sync', icon: Zap }
+           ].map((badge, i) => (
+             <motion.div 
+               key={i}
+               initial={{ opacity: 0, y: 20 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               transition={{ delay: 0.5 + (i * 0.1) }}
+               className="p-8 border border-white/5 rounded-3xl bg-white/[0.02]"
+             >
+                <div className="h-2 w-2 rounded-full bg-emerald-500 mb-6 animate-pulse" />
+                <p className="text-[10px] uppercase font-black tracking-widest text-white/30 mb-2">{badge.label}</p>
+                <p className="text-2xl font-black text-white">{badge.value}</p>
+             </motion.div>
+           ))}
         </div>
       </div>
     </section>
@@ -131,3 +150,4 @@ const Services3D = () => {
 };
 
 export default Services3D;
+

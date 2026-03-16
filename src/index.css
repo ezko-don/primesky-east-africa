@@ -230,17 +230,25 @@ All colors MUST be HSL.
     background: linear-gradient(180deg, #34d399, #10b981);
   }
 
-  /* Improved Selection styling */
-  ::selection {
-    background: rgba(16, 185, 129, 0.25);
-    color: #ffffff;
-    text-shadow: none;
+  /* Custom Cursor Support */
+  html, body {
+    cursor: none !important;
+  }
+  
+  a, button, [data-cursor] {
+    cursor: none !important;
   }
 
-  ::-moz-selection {
-    background: rgba(16, 185, 129, 0.25);
+  /* Improved Selection styling */
+  ::selection {
+    background: rgba(16, 185, 129, 0.4);
     color: #ffffff;
-    text-shadow: none;
+  }
+
+  /* Vertical Text Utility */
+  .vertical-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
   }
 }
 
@@ -650,7 +658,48 @@ All colors MUST be HSL.
   }
 }
 
-/* Print styles */
+/* Global Cinematic Effects */
+@layer components {
+  .noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  .vignette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.4) 110%);
+  }
+
+  .cinematic-scanline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9997;
+    background: linear-gradient(
+      transparent 50%,
+      rgba(16, 185, 129, 0.02) 50%
+    );
+    background-size: 100% 4px;
+    opacity: 0.5;
+  }
+}
+
 @media print {
   * {
     background: transparent !important;

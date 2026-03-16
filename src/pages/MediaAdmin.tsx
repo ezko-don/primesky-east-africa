@@ -4,20 +4,21 @@ import MediaUpload from '@/components/MediaUpload';
 import MediaManager from '@/components/MediaManager';
 import { R2_CONFIG, validateR2Config } from '@/config/r2';
 import { testR2Connection } from '@/services/r2StorageService';
-import { AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
+import { AlertCircle, CheckCircle, Loader2, ArrowLeft, Shield, Box, Zap } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const MediaAdmin = () => {
   const [connectionStatus, setConnectionStatus] = useState<'idle' | 'testing' | 'success' | 'error'>('idle');
   const [connectionError, setConnectionError] = useState<string>('');
+  const navigate = useNavigate();
 
   const configValidation = validateR2Config();
 
   const testConnection = async () => {
     setConnectionStatus('testing');
     setConnectionError('');
-
     const result = await testR2Connection();
-    
     if (result.success) {
       setConnectionStatus('success');
     } else {
@@ -27,162 +28,164 @@ const MediaAdmin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Media Administration</h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Manage your Cloudflare R2 media storage
-          </p>
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-emerald-500/30">
+      {/* Navigation Bar */}
+      <nav className="border-b border-white/5 bg-black/50 backdrop-blur-2xl px-8 py-6 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <button 
+            onClick={() => navigate('/')}
+            className="flex items-center gap-4 group"
+            data-cursor="Return"
+          >
+            <ArrowLeft className="w-5 h-5 text-emerald-500 transition-transform group-hover:-translate-x-1" />
+            <span className="text-[10px] uppercase font-black tracking-[0.4em]">Back to Hub</span>
+          </button>
+          <div className="flex items-center gap-4">
+             <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+             <span className="text-[10px] uppercase font-black tracking-[0.4em] text-white/50">Admin Terminal v2.0</span>
+          </div>
         </div>
+      </nav>
 
-        {/* Configuration Status */}
-        <div className="mb-8 p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-4">R2 Configuration Status</h2>
-          
-          {!configValidation.isValid ? (
-            <div className="space-y-2">
-              <div className="flex items-start gap-2 text-red-600">
-                <AlertCircle className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="font-medium">Configuration incomplete</p>
-                  <ul className="list-disc list-inside mt-2 text-sm">
-                    {configValidation.errors.map((error, index) => (
-                      <li key={index}>{error}</li>
-                    ))}
-                  </ul>
-                  <p className="mt-3 text-sm">
-                    Please configure your R2 credentials in the <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">.env</code> file.
-                    See <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">R2_SETUP_GUIDE.md</code> for instructions.
-                  </p>
-                </div>
-              </div>
+      <main className="max-w-7xl mx-auto px-8 py-20">
+        {/* Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-20"
+        >
+          <h1 className="text-8xl md:text-[8vw] font-black tracking-tighter leading-none mb-6">
+            MEDIA <br/><span className="text-emerald-500 italic">SYSTEM.</span>
+          </h1>
+          <p className="text-xl font-light text-white/30 max-w-xl">
+            Surgical precision control over your Cloudflare R2 neural media network.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-20">
+          {/* Status Panel */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="lg:col-span-1 p-8 rounded-[2rem] bg-white/5 border border-white/5 space-y-8"
+          >
+            <div className="flex items-center gap-4 text-emerald-500">
+               <Shield className="w-6 h-6" />
+               <h2 className="text-xs uppercase font-black tracking-widest">Core Security</h2>
             </div>
-          ) : (
-            <div className="space-y-4">
-              <div className="flex items-start gap-2 text-green-600">
-                <CheckCircle className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="font-medium">Configuration complete</p>
-                  <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                    <p><strong>Bucket:</strong> {R2_CONFIG.BUCKET_NAME}</p>
-                    <p><strong>Endpoint:</strong> {R2_CONFIG.ENDPOINT}</p>
-                    {R2_CONFIG.PUBLIC_URL && (
-                      <p><strong>Public URL:</strong> {R2_CONFIG.PUBLIC_URL}</p>
-                    )}
+            
+            {!configValidation.isValid ? (
+              <div className="p-6 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-500 space-y-4">
+                <div className="flex items-center gap-2">
+                  <AlertCircle className="w-5 h-5" />
+                  <span className="font-black text-[10px] uppercase tracking-widest">Configuration Leak</span>
+                </div>
+                <ul className="text-xs space-y-1 opacity-70 list-disc list-inside">
+                  {configValidation.errors.map((error, i) => <li key={i}>{error}</li>)}
+                </ul>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                <div className="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500">
+                  <div className="flex items-center gap-2 mb-4">
+                    <CheckCircle className="w-5 h-5" />
+                    <span className="font-black text-[10px] uppercase tracking-widest">Neural Link Active</span>
+                  </div>
+                  <div className="space-y-2 text-[10px] uppercase tracking-widest font-bold opacity-50">
+                    <p>Bucket: {R2_CONFIG.BUCKET_NAME}</p>
+                    <p className="truncate">Node: {R2_CONFIG.ENDPOINT}</p>
                   </div>
                 </div>
-              </div>
 
-              {/* Test Connection Button */}
-              <div>
                 <button
                   onClick={testConnection}
                   disabled={connectionStatus === 'testing'}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 flex items-center gap-2"
+                  data-cursor="Connect"
+                  className="w-full py-5 rounded-2xl bg-white text-black font-black uppercase text-[10px] tracking-widest hover:bg-emerald-500 hover:text-white transition-all disabled:opacity-50"
                 >
                   {connectionStatus === 'testing' ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      Testing Connection...
-                    </>
-                  ) : (
-                    'Test R2 Connection'
-                  )}
+                    <span className="flex items-center justify-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Syncing...</span>
+                  ) : 'Test Neural Connection'}
                 </button>
 
                 {connectionStatus === 'success' && (
-                  <div className="mt-2 flex items-center gap-2 text-green-600 text-sm">
-                    <CheckCircle className="h-4 w-4" />
-                    Connection successful!
-                  </div>
-                )}
-
-                {connectionStatus === 'error' && (
-                  <div className="mt-2 flex items-start gap-2 text-red-600 text-sm">
-                    <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="font-medium">Connection failed</p>
-                      <p>{connectionError}</p>
-                    </div>
-                  </div>
+                  <p className="text-[10px] uppercase text-center text-emerald-500 font-black tracking-widest animate-pulse">Link Established</p>
                 )}
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </motion.div>
 
-        {/* Main Content */}
-        {configValidation.isValid && (
-          <Tabs defaultValue="upload" className="w-full">
-            <TabsList className="grid w-full max-w-md grid-cols-2">
-              <TabsTrigger value="upload">Upload Media</TabsTrigger>
-              <TabsTrigger value="manage">Manage Media</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="upload" className="mt-6">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                <h2 className="text-xl font-semibold mb-4">Upload New Media</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-                  Upload images and videos to your Cloudflare R2 storage. Files will be automatically organized by category.
-                </p>
-                
-                <div className="mb-6">
-                  <label className="block text-sm font-medium mb-2">
-                    Select Category
-                  </label>
-                  <select
-                    id="upload-category"
-                    className="w-full max-w-xs px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800"
-                  >
-                    <option value={R2_CONFIG.FOLDERS.WEDDINGS}>Weddings</option>
-                    <option value={R2_CONFIG.FOLDERS.TRAVEL}>Travel</option>
-                    <option value={R2_CONFIG.FOLDERS.NATURE}>Nature</option>
-                    <option value={R2_CONFIG.FOLDERS.REAL_ESTATE}>Real Estate</option>
-                    <option value={R2_CONFIG.FOLDERS.CONSTRUCTION}>Construction</option>
-                    <option value={R2_CONFIG.FOLDERS.EVENTS}>Events</option>
-                    <option value={R2_CONFIG.FOLDERS.AGRICULTURE}>Agriculture</option>
-                    <option value={R2_CONFIG.FOLDERS.URBAN}>Urban</option>
-                  </select>
-                </div>
-
-                <MediaUpload
-                  category={(document.getElementById('upload-category') as HTMLSelectElement)?.value || R2_CONFIG.FOLDERS.WEDDINGS}
-                  onUploadComplete={(urls) => {
-                    console.log('Upload complete:', urls);
-                    alert(`Successfully uploaded ${urls.length} file(s)!`);
-                  }}
-                  maxFiles={20}
-                  acceptImages={true}
-                  acceptVideos={true}
-                />
-              </div>
-            </TabsContent>
-
-            <TabsContent value="manage" className="mt-6">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                <MediaManager />
-              </div>
-            </TabsContent>
-          </Tabs>
-        )}
-
-        {/* Help Section */}
-        <div className="mt-8 p-6 bg-blue-50 dark:bg-blue-950 rounded-lg">
-          <h3 className="text-lg font-semibold mb-2">Need Help?</h3>
-          <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
-            Check out the R2 Setup Guide for detailed instructions on configuring Cloudflare R2.
-          </p>
-          <a
-            href="/R2_SETUP_GUIDE.md"
-            target="_blank"
-            className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          {/* Core Operations */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1 }}
+            className="lg:col-span-2 p-8 rounded-[2rem] bg-white/5 border border-white/5 overflow-hidden"
           >
-            View Setup Guide
-          </a>
+            <Tabs defaultValue="upload" className="w-full">
+              <TabsList className="flex gap-4 bg-transparent border-b border-white/5 mb-12 p-0 h-auto">
+                <TabsTrigger 
+                  value="upload" 
+                  className="px-0 py-4 bg-transparent text-white/30 data-[state=active]:text-emerald-500 data-[state=active]:bg-transparent border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none text-[10px] uppercase font-black tracking-widest"
+                >
+                  Transmissions
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="manage" 
+                  className="px-0 py-4 bg-transparent text-white/30 data-[state=active]:text-emerald-500 data-[state=active]:bg-transparent border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none text-[10px] uppercase font-black tracking-widest"
+                >
+                  Neural Bank
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="upload" className="mt-0 focus-visible:outline-none">
+                <div className="space-y-12">
+                   <div className="flex items-end justify-between border-b border-white/5 pb-8">
+                      <div>
+                         <h3 className="text-4xl font-black uppercase tracking-tighter">Transmit</h3>
+                         <p className="text-xs text-white/20 uppercase tracking-widest font-black mt-2">Injection to R2 Cloud</p>
+                      </div>
+                      <select
+                        id="upload-category"
+                        className="bg-transparent border-none text-emerald-500 text-[10px] font-black uppercase tracking-widest focus:ring-0 cursor-pointer"
+                      >
+                        {Object.entries(R2_CONFIG.FOLDERS).map(([key, value]) => (
+                          <option key={key} value={value} className="bg-neutral-900">{key.replace(/_/g, ' ')}</option>
+                        ))}
+                      </select>
+                   </div>
+                   
+                   <MediaUpload
+                     category={(document.getElementById('upload-category') as HTMLSelectElement)?.value || R2_CONFIG.FOLDERS.weddings}
+                     onUploadComplete={(urls) => console.log('Upload complete:', urls)}
+                   />
+                </div>
+              </TabsContent>
+
+              <TabsContent value="manage" className="mt-0 focus-visible:outline-none">
+                <MediaManager />
+              </TabsContent>
+            </Tabs>
+          </motion.div>
         </div>
-      </div>
+
+        {/* Technical Specs Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 opacity-20">
+           {[
+             { label: 'Latency', val: '< 20ms', icon: Zap },
+             { label: 'Throughput', val: 'Infinite', icon: Box },
+             { label: 'Region', val: 'Global Edge', icon: Zap }
+           ].map((spec, i) => (
+             <div key={i} className="p-8 border border-white/10 rounded-3xl flex items-center gap-6 grayscale">
+                <spec.icon className="w-6 h-6" />
+                <div>
+                   <p className="text-[10px] uppercase font-black tracking-widest">{spec.label}</p>
+                   <p className="text-2xl font-black">{spec.val}</p>
+                </div>
+             </div>
+           ))}
+        </div>
+      </main>
     </div>
   );
 };

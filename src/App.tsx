@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import PortfolioPage from "./pages/PortfolioPage";
 import MediaAdmin from "./pages/MediaAdmin";
 import NotFound from "./pages/NotFound";
+import CustomCursor from "./components/CustomCursor";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,10 @@ const AnimatedRoutes = () => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <div className="noise-overlay" />
+      <div className="vignette" />
+      <div className="cinematic-scanline" />
+      <CustomCursor />
       <Toaster />
       <Sonner />
       <BrowserRouter>
