@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { getAnalyticsData, clearAnalyticsData } from '../utils/analytics';
+import { getAnalyticsData, clearAnalyticsData, AnalyticsData, ContactEvent, WhatsAppClickEvent } from '../utils/analytics';
 import { MessageCircle, Phone, Mail, Send, Users, TrendingUp, Calendar, Download } from 'lucide-react';
 
 const AnalyticsDashboard = () => {
-  const [analyticsData, setAnalyticsData] = useState<any>(null);
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -95,7 +95,7 @@ const AnalyticsDashboard = () => {
       <div className="mb-4">
         <h4 className="text-sm font-semibold text-gray-700 mb-2">WhatsApp Clicks by Source</h4>
         <div className="space-y-1">
-          {Object.entries(analyticsData.summary.clicksBySource).map(([source, count]: [string, any]) => (
+          {Object.entries(analyticsData.summary.clicksBySource).map(([source, count]: [string, number]) => (
             <div key={source} className="flex justify-between items-center text-sm">
               <span className="text-gray-600 capitalize">{source.replace('-', ' ')}</span>
               <span className="font-medium text-gray-800">{count}</span>
@@ -108,7 +108,7 @@ const AnalyticsDashboard = () => {
       <div className="mb-4">
         <h4 className="text-sm font-semibold text-gray-700 mb-2">Recent WhatsApp Clicks</h4>
         <div className="space-y-2 max-h-32 overflow-y-auto">
-          {analyticsData.summary.recentClicks.map((click: any, index: number) => (
+          {analyticsData.summary.recentClicks.map((click: WhatsAppClickEvent, index: number) => (
             <div key={index} className="text-xs bg-gray-50 p-2 rounded">
               <div className="flex justify-between">
                 <span className="font-medium">{click.source}</span>
@@ -128,13 +128,13 @@ const AnalyticsDashboard = () => {
       <div className="mb-4">
         <h4 className="text-sm font-semibold text-gray-700 mb-2">Contact Events</h4>
         <div className="space-y-1">
-          {analyticsData.contactEvents.reduce((acc: any, event: any) => {
+          {analyticsData.contactEvents.reduce((acc: Record<string, number>, event: ContactEvent) => {
             acc[event.type] = (acc[event.type] || 0) + 1;
             return acc;
-          }, {}) && Object.entries(analyticsData.contactEvents.reduce((acc: any, event: any) => {
+          }, {}) && Object.entries(analyticsData.contactEvents.reduce((acc: Record<string, number>, event: ContactEvent) => {
             acc[event.type] = (acc[event.type] || 0) + 1;
             return acc;
-          }, {})).map(([type, count]: [string, any]) => (
+          }, {})).map(([type, count]: [string, number]) => (
             <div key={type} className="flex justify-between items-center text-sm">
               <div className="flex items-center gap-1">
                 {type === 'whatsapp_click' && <MessageCircle className="w-3 h-3 text-emerald-600" />}

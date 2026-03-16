@@ -24,6 +24,18 @@ export interface ContactEvent {
   details?: Record<string, unknown>;
 }
 
+export interface AnalyticsData {
+  whatsappClicks: WhatsAppClickEvent[];
+  contactEvents: ContactEvent[];
+  summary: {
+    totalWhatsAppClicks: number;
+    totalContactEvents: number;
+    clicksBySource: Record<string, number>;
+    recentClicks: WhatsAppClickEvent[];
+    sessionId: string;
+  };
+}
+
 // Generate unique session ID
 export const generateSessionId = (): string => {
   return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -132,7 +144,7 @@ const sendToAnalyticsEndpoint = async (eventType: string, eventData: Record<stri
 };
 
 // Get analytics data for dashboard
-export const getAnalyticsData = () => {
+export const getAnalyticsData = (): AnalyticsData => {
   const whatsappClicks = JSON.parse(localStorage.getItem('primesky_whatsapp_clicks') || '[]');
   const contactEvents = JSON.parse(localStorage.getItem('primesky_contact_events') || '[]');
 

@@ -214,8 +214,9 @@ Company: +254 741 464497 | primeskyeastafrica@yahoo.com`;
         throw new Error('Failed to send to any email addresses');
       }
 
-    } catch (error: any) {
-      console.error('Form submission error:', error);
+    } catch (error: unknown) {
+      const err = error as Error;
+      console.error('Form submission error:', err);
       setSubmitStatus('error');
       setStatusMessage(
         `Sorry ${formData.firstName || 'there'}, we're experiencing technical difficulties. ` +
