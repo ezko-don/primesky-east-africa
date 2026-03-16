@@ -21,7 +21,7 @@ const Portfolio3D = () => {
     { filename: 'weddings/The love ❤️🇨🇲 @georgeajr_ & 🇰🇪 @sallykyale 💍 .mp4', title: 'International Love', category: 'weddings', type: 'video' },
     { filename: 'weddings/time7447-1769768024030-qdo65v.jpg', title: 'Wedding Moments', category: 'weddings', type: 'image' },
     // Nature
-    { filename: 'Nature/#tanzanai.jpg', title: 'Tanzania', category: 'nature', type: 'image' },
+    { filename: 'Nature/tanzanai.jpg', title: 'Tanzania', category: 'nature', type: 'image' },
     { filename: 'Nature/IMG_4391.jpg', title: 'Aerial View', category: 'nature', type: 'image' },
     { filename: 'Nature/L A K E  N A T R O N.mp4', title: 'Lake Natron', category: 'nature', type: 'video' },
     { filename: 'Nature/Rice farms view.jpg', title: 'Rice Farms', category: 'nature', type: 'image' },
@@ -30,7 +30,7 @@ const Portfolio3D = () => {
     { filename: 'Nature/Take a few seconds to breath .mp4', title: 'Peaceful', category: 'nature', type: 'video' },
     { filename: 'Nature/The Torch Tower in Arusha, Tanzania, is a symbolic structure commemorating the ideals of freedom.jpg', title: 'Torch Tower', category: 'nature', type: 'image' },
     { filename: 'Nature/The beauty of the crater with the majestic Mount Meru towering in the background. This view never gets old! What do you love most about the landscape here#meru #tanzaniaexplorer #airialphotography #minidrone #crater #landscape #old #djiglob.mp4', title: 'Mount Meru', category: 'nature', type: 'video' },
-    { filename: 'Nature/seregeti..jpg', title: 'Serengeti', category: 'nature', type: 'image' },
+    { filename: 'Nature/seregeti.jpg', title: 'Serengeti', category: 'nature', type: 'image' },
     { filename: 'Nature/zenji.mp4', title: 'Zanzibar Shores', category: 'nature', type: 'video' },
     // Real Estate
     { filename: 'Real estate/trip to Zanzibar.🇹🇿🏝️🏖️.jpg', title: 'Zanzibar Coast', category: 'real-estate', type: 'image' },
