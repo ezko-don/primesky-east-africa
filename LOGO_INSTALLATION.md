@@ -24,6 +24,7 @@ Since you've uploaded the logo image, please save it to the public folder:
 2. Place it in the `public/` folder of your project
 3. The path should be: `public/primesky-logo.png`
 
+
 ## Logo Specifications
 
 The logo you provided features:
