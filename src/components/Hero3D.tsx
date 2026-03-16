@@ -110,21 +110,6 @@ const Hero3D = () => {
              </span>
           </motion.div>
           
-          <h1 
-            className="text-7xl md:text-[14vw] font-black tracking-tighter leading-[0.75] mb-12 select-none uppercase mix-blend-plus-lighter"
-            style={{ 
-              WebkitTextStroke: '1px rgba(255,255,255,0.2)',
-              color: 'transparent'
-            }}
-          >
-            PRIME<br/>
-            <span 
-              className="text-emerald-500 italic opacity-20"
-              style={{ WebkitTextStroke: '0px' }}
-            >
-              SKY.
-            </span>
-          </h1>
 
           <div className="flex items-center justify-center gap-12">
             <motion.button
