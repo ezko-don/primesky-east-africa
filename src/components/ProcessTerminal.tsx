@@ -1,36 +1,43 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Search, Zap, Film, Send } from 'lucide-react';
+import { R2_CONFIG } from '@/config/r2';
 
 const ProcessTerminal = () => {
+  const getMediaUrl = (filename: string) => {
+    const parts = filename.split('/');
+    const encodedPath = parts.map(part => encodeURIComponent(part)).join('/');
+    return `${R2_CONFIG.PUBLIC_URL}/${encodedPath}`;
+  };
+
   const steps = [
     { 
       icon: Search, 
       id: "01",
       title: "SCOUT", 
       desc: "Strategic site analysis and vision mapping.",
-      visual: "https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Nature/Rice%20farms%20view.jpg"
+      visual: "Nature/Rice farms view.jpg"
     },
     { 
       icon: Zap, 
       id: "02",
       title: "CAPTURE", 
       desc: "Precision raw data acquisition in 8K.",
-      visual: "https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Nature/The%20beauty%20of%20the%20crater%20with%20the%20majestic%20Mount%20Meru%20towering%20in%20the%20background.%20This%20view%20never%20gets%20old!%20What%20do%20you%20love%20most%20about%20the%20landscape%20here%23meru%20%23tanzaniaexplorer%20%23airialphotography%20%23minidrone%20%23crater%20%23landscape%20%23old%20%23djiglob.mp4"
+      visual: "Nature/The beauty of the crater with the majestic Mount Meru towering in the background. This view never gets old! What do you love most about the landscape here#meru #tanzaniaexplorer #airialphotography #minidrone #crater #landscape #old #djiglob.mp4"
     },
     { 
       icon: Film, 
       id: "03",
       title: "MASTER", 
       desc: "Color grading and narrative assembly.",
-      visual: "https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Nature/zenji.mp4"
+      visual: "Nature/zenji.mp4"
     },
     { 
       icon: Send, 
       id: "04",
       title: "SYNC", 
       desc: "Instant edge delivery via R2 network.",
-      visual: "https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Nature/L%20A%20K%20E%20%20N%20A%20T%20R%20O%20N.mp4"
+      visual: "Nature/L A K E  N A T R O N.mp4"
     }
   ];
 
@@ -64,9 +71,9 @@ const ProcessTerminal = () => {
                       
                       <div className="relative aspect-video overflow-hidden rounded-3xl border border-white/5 mb-8">
                          {step.visual.endsWith('.mp4') ? (
-                           <video src={step.visual} autoPlay muted loop className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" />
+                           <video src={getMediaUrl(step.visual)} autoPlay muted loop className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" />
                          ) : (
-                           <img src={step.visual} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" />
+                           <img src={getMediaUrl(step.visual)} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" />
                          )}
                          <div className="absolute inset-0 bg-emerald-500/10 mix-blend-overlay group-hover:opacity-0 transition-opacity" />
                       </div>

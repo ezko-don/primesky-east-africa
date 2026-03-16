@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { Camera, Video, Sprout, Building, Heart, ArrowUpRight, Monitor, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { R2_CONFIG } from '@/config/r2';
 
 const Services3D = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const getMediaUrl = (filename: string) => {
+    const parts = filename.split('/');
+    const encodedPath = parts.map(part => encodeURIComponent(part)).join('/');
+    return `${R2_CONFIG.PUBLIC_URL}/${encodedPath}`;
+  };
 
   const services = [
     { 
@@ -12,7 +19,7 @@ const Services3D = () => {
       title: 'CINematic', 
       desc: 'Narrative-driven 4K/6K visual storytelling with filmic precision.',
       tags: ['8K RAW', 'COMMERCIAL'],
-      thumbnail: 'https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Nature/Serengeti%20-%20The%20vast%20plains%20.mp4'
+      thumbnail: 'Nature/Serengeti - The vast plains .mp4'
     },
     { 
       id: "02",
@@ -20,7 +27,7 @@ const Services3D = () => {
       title: 'INTELLigence', 
       desc: 'High-precision drone mapping and thermal site monitoring.',
       tags: ['RTK GPS', 'THERMAL'],
-      thumbnail: 'https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Construction/construction.mp4'
+      thumbnail: 'Construction/construction.mp4'
     },
     { 
       id: "03",
@@ -28,7 +35,7 @@ const Services3D = () => {
       title: 'AGRIculture', 
       desc: 'Multispectral crop health analysis and yield optimization data.',
       tags: ['MAPS', 'NDVI'],
-      thumbnail: 'https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Nature/Rice%20farms%20view.jpg'
+      thumbnail: 'Nature/Rice farms view.jpg'
     },
     { 
       id: "04",
@@ -36,7 +43,7 @@ const Services3D = () => {
       title: 'PRESERVation', 
       desc: 'Master-level preservation of life\'s most profound moments.',
       tags: ['4K UHD', 'WEDDINGS'],
-      thumbnail: 'https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Nature/zenji.mp4'
+      thumbnail: 'Nature/zenji.mp4'
     }
   ];
 
@@ -107,9 +114,9 @@ const Services3D = () => {
                 {/* Hover Visual Thumbnail */}
                 <div className="absolute right-32 top-1/2 -translate-y-1/2 w-64 aspect-video overflow-hidden rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 scale-90 group-hover:scale-100 hidden lg:block border border-white/10">
                    {service.thumbnail.endsWith('.mp4') ? (
-                     <video src={service.thumbnail} autoPlay muted loop className="w-full h-full object-cover" />
+                     <video src={getMediaUrl(service.thumbnail)} autoPlay muted loop className="w-full h-full object-cover" />
                    ) : (
-                     <img src={service.thumbnail} className="w-full h-full object-cover" />
+                     <img src={getMediaUrl(service.thumbnail)} className="w-full h-full object-cover" />
                    )}
                 </div>
 
