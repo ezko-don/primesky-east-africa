@@ -150,14 +150,6 @@ const Portfolio3D = () => {
                   </div>
                 )}
                 
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                
-                <div className="absolute inset-x-0 bottom-0 p-12 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700">
-                  <span className="text-[10px] uppercase font-black tracking-[0.5em] text-emerald-500 mb-4 block">{item.category}</span>
-                  <h3 className="text-4xl font-black text-white tracking-tighter leading-none italic uppercase">
-                    {item.title}
-                  </h3>
-                </div>
               </motion.div>
             ))}
           </AnimatePresence>
