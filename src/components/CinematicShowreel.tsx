@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Play } from 'lucide-react';
+import { R2_CONFIG } from '@/config/r2';
 
 const CinematicShowreel = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -8,6 +9,12 @@ const CinematicShowreel = () => {
     target: containerRef,
     offset: ["start end", "end start"]
   });
+
+  const getMediaUrl = (filename: string) => {
+    const parts = filename.split('/');
+    const encodedPath = parts.map(part => encodeURIComponent(part)).join('/');
+    return `${R2_CONFIG.PUBLIC_URL}/${encodedPath}`;
+  };
 
   const scale = useTransform(scrollYProgress, [0, 0.5], [0.8, 1]);
   const borderRadius = useTransform(scrollYProgress, [0, 0.5], ["100px", "0px"]);
@@ -25,7 +32,7 @@ const CinematicShowreel = () => {
           playsInline
           className="w-full h-full object-cover brightness-[0.4] grayscale group-hover:grayscale-0 group-hover:brightness-[0.7] transition-all duration-[2s] ease-out"
         >
-          <source src="https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Nature/Serengeti%20-%20The%20vast%20plains%20.mp4" type="video/mp4" />
+          <source src={getMediaUrl('Nature/Serengeti - The vast plains .mp4')} type="video/mp4" />
         </video>
 
         {/* Content Overlay */}
