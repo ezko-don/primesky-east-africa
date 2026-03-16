@@ -1,4 +1,12 @@
-// Analytics and tracking utilities for Primesky East Africa
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+    fbq?: (...args: unknown[]) => void;
+  }
+}
+
+const gtag = typeof window !== 'undefined' ? window.gtag : undefined;
+const fbq = typeof window !== 'undefined' ? window.fbq : undefined;
 
 export interface WhatsAppClickEvent {
   timestamp: string;
@@ -13,7 +21,7 @@ export interface ContactEvent {
   type: 'whatsapp_click' | 'phone_call' | 'email_click' | 'form_submission';
   timestamp: string;
   source: string;
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
 // Generate unique session ID
@@ -32,7 +40,7 @@ export const getSessionId = (): string => {
 };
 
 // Track WhatsApp click
-export const trackWhatsAppClick = (source: string, additionalData?: any) => {
+export const trackWhatsAppClick = (source: string, additionalData?: Record<string, unknown>) => {
   const event: WhatsAppClickEvent = {
     timestamp: new Date().toISOString(),
     source,
@@ -68,13 +76,13 @@ export const trackWhatsAppClick = (source: string, additionalData?: any) => {
   console.log('WhatsApp Click Tracked:', event);
 
   // Send to custom analytics endpoint (if you set one up)
-  sendToAnalyticsEndpoint('whatsapp_click', event);
+  sendToAnalyticsEndpoint('whatsapp_click', event as unknown as Record<string, unknown>);
 
   return event;
 };
 
 // Track other contact events
-export const trackContactEvent = (type: ContactEvent['type'], source: string, details?: any) => {
+export const trackContactEvent = (type: ContactEvent['type'], source: string, details?: Record<string, unknown>) => {
   const event: ContactEvent = {
     type,
     timestamp: new Date().toISOString(),
@@ -97,13 +105,13 @@ export const trackContactEvent = (type: ContactEvent['type'], source: string, de
   }
 
   console.log('Contact Event Tracked:', event);
-  sendToAnalyticsEndpoint(type, event);
+  sendToAnalyticsEndpoint(type, event as unknown as Record<string, unknown>);
 
   return event;
 };
 
 // Send data to custom analytics endpoint
-const sendToAnalyticsEndpoint = async (eventType: string, eventData: any) => {
+const sendToAnalyticsEndpoint = async (eventType: string, eventData: Record<string, unknown>) => {
   try {
     // Use Vercel serverless function instead of PHP
     await fetch('/api/track-analytics', {
@@ -134,7 +142,7 @@ export const getAnalyticsData = () => {
     summary: {
       totalWhatsAppClicks: whatsappClicks.length,
       totalContactEvents: contactEvents.length,
-      clicksBySource: whatsappClicks.reduce((acc: any, click: WhatsAppClickEvent) => {
+      clicksBySource: whatsappClicks.reduce((acc: Record<string, number>, click: WhatsAppClickEvent) => {
         acc[click.source] = (acc[click.source] || 0) + 1;
         return acc;
       }, {}),

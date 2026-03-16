@@ -16,7 +16,7 @@ export interface QuoteRequestData {
 export interface EmailResponse {
   success: boolean;
   message: string;
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
 // Send quote request email to both recipients
@@ -118,13 +118,14 @@ export const sendQuoteRequest = async (formData: QuoteRequestData): Promise<Emai
       details: { method: 'mailto_fallback' }
     };
 
-  } catch (error: any) {
-    console.error('Email service error:', error);
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error('Email service error:', err);
     
     return {
       success: false,
       message: `Sorry ${formData.firstName || 'there'}, we're experiencing technical difficulties. Please call us directly at +254 741 464497 or WhatsApp us for immediate assistance. We'll be happy to help you with your drone service needs!`,
-      details: error
+      details: { error: err.message }
     };
   }
 };

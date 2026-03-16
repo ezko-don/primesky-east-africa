@@ -114,21 +114,22 @@ export const uploadToR2 = async (
       fileName: uniqueFileName
     };
 
-  } catch (error: any) {
-    console.error('R2 upload error:', error);
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error('R2 upload error:', err);
     
     if (onProgress) {
       onProgress({
         fileName: file.name,
         progress: 0,
         status: 'error',
-        error: error.message
+        error: err.message
       });
     }
 
     return {
       success: false,
-      error: error.message || 'Failed to upload file to R2'
+      error: err.message || 'Failed to upload file to R2'
     };
   }
 };
@@ -163,7 +164,7 @@ export const getSignedUrlForFile = async (
 
     const signedUrl = await getSignedUrl(client, command, { expiresIn });
     return signedUrl;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error generating signed URL:', error);
     throw new Error('Failed to generate signed URL');
   }
@@ -181,11 +182,12 @@ export const deleteFromR2 = async (key: string): Promise<{ success: boolean; err
     await client.send(command);
 
     return { success: true };
-  } catch (error: any) {
-    console.error('R2 delete error:', error);
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error('R2 delete error:', err);
     return {
       success: false,
-      error: error.message || 'Failed to delete file from R2'
+      error: err.message || 'Failed to delete file from R2'
     };
   }
 };
@@ -229,7 +231,7 @@ export const listFilesInCategory = async (category: string): Promise<MediaFile[]
     });
 
     return files;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('R2 list error:', error);
     return [];
   }
@@ -274,7 +276,7 @@ export const listAllFiles = async (): Promise<MediaFile[]> => {
     });
 
     return files;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('R2 list all error:', error);
     return [];
   }
@@ -320,11 +322,12 @@ export const testR2Connection = async (): Promise<{ success: boolean; error?: st
       success: false,
       error: 'R2 credentials not configured properly'
     };
-  } catch (error: any) {
-    console.error('R2 connection test failed:', error);
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error('R2 connection test failed:', err);
     return {
       success: false,
-      error: error.message || 'Failed to connect to R2'
+      error: err.message || 'Failed to connect to R2'
     };
   }
 };
