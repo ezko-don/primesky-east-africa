@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { R2_CONFIG } from '@/config/r2';
 
 const AboutMinimal = () => {
   const containerRef = useRef(null);
@@ -7,6 +8,12 @@ const AboutMinimal = () => {
     target: containerRef,
     offset: ["start end", "end start"]
   });
+  
+  const getMediaUrl = (filename: string) => {
+    const parts = filename.split('/');
+    const encodedPath = parts.map(part => encodeURIComponent(part)).join('/');
+    return `${R2_CONFIG.PUBLIC_URL}/${encodedPath}`;
+  };
   
   const y = useTransform(scrollYProgress, [0, 1], [-100, 100]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.3]);
@@ -27,7 +34,7 @@ const AboutMinimal = () => {
             <div className="relative aspect-video overflow-hidden rounded-[4rem] group border border-white/5">
               <motion.img
                 style={{ scale }}
-                src="https://pub-158012c9a83642869a2f756e0cad584d.r2.dev/Nature/IMG_4391.jpg"
+                src={getMediaUrl('Nature/IMG_4391.jpg')}
                 alt="Perspective"
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
               />
